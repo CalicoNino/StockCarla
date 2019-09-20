@@ -51,15 +51,9 @@ class stockTime():
         print(df)
 
 
-        # data = df.sort_values('Timestamp')
-        # data['Close'] = data['Close'].astype(float)
-        # data['Timestamp'] = data['Timestamp']
-        # data['5min'] = np.round(data['Close'].rolling(window=5).mean(),2)
-        # data['5min'].plot()
-        # plt.show()
-        # print data
-        # print data['Close']
-        # print data['Timestamp']
+        df.plot(kind ='line', x = 'Timestamp', y = 'open', color = 'red')
+        plt.show()
+
 
     def time_daily(self, f = 'compact'):
         if f != 'compact': f = 'full'
@@ -201,11 +195,11 @@ class stockTime():
 if __name__ == '__main__':
     # search_endpoint(api_key, 'AAPL')
     A = stockTime(api_key, symbol)
-    # A.time_intraday()
+    A.time_intraday()
     # A.time_daily()
     # A.time_daily_adjusted()
     # A.time_weekly()
     # A.time_weekly_adjusted()
     # A.time_monthly()
     # A.time_monthly_adjusted()
-    A.quote_endpoint()
+    # A.quote_endpoint()
