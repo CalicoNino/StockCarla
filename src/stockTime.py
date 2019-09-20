@@ -2,7 +2,7 @@
 
 import requests
 import pandas as pd
-import datetime 
+import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -15,7 +15,7 @@ def search_endpoint(api_key, keywords = ""):
     data = data.json(); data = data['bestMatches']
     search = pd.DataFrame(columns = ['Symbol', 'Name', 'Type', 'Region', 'Market Open', 'Market CLose', 'Time Zone', 'Currency', 'Match Score'])
     for p in data:
-        search.loc[-1,:] = [str(p['1. symbol']), str(p['2. name']), str(p['3. type']), str(p['4. region']), datetime.datetime.strptime(p['5. marketOpen'],'%H:%M'), datetime.datetime.strptime(p['6. marketClose'],'%H:%M'), 
+        search.loc[-1,:] = [str(p['1. symbol']), str(p['2. name']), str(p['3. type']), str(p['4. region']), datetime.datetime.strptime(p['5. marketOpen'],'%H:%M'), datetime.datetime.strptime(p['6. marketClose'],'%H:%M'),
                             str(p['7. timezone']), str(p['8. currency']), float(p['9. matchScore']) ]
         search.index = search.index + 1
     print(search)
@@ -29,9 +29,9 @@ class stockTime():
         if f != 'compact': f = 'full'
         data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='+self.sym+'&interval='+str(t)+'min&outputsize='+str(f)+'&apikey='+self.key)
         data = data.json()
-        
+
         meta = data['Meta Data']
-        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[5][0][3:], meta.items()[2][0][3:], meta.items()[3][0][3:], meta.items()[4][0][3:], meta.items()[1][0][3:]])    
+        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[5][0][3:], meta.items()[2][0][3:], meta.items()[3][0][3:], meta.items()[4][0][3:], meta.items()[1][0][3:]])
         dmeta.loc[0] = [meta.items()[0][1], meta.items()[5][1], meta.items()[2][1], meta.items()[3][1], meta.items()[4][1], datetime.datetime.strptime(meta.items()[1][1], '%Y-%m-%d %H:%M:%S')]
 
 
@@ -42,7 +42,7 @@ class stockTime():
             data_row = [date, float(p['1. open']), float(p['2. high']), float(p['3. low']), float(p['4. close']), int(p['5. volume'])]
             df.loc[-1,:] = data_row
             df.index = df.index + 1
-        
+
         print(dmeta)
         print(df)
 
@@ -57,13 +57,13 @@ class stockTime():
         # print data['Close']
         # print data['Timestamp']
 
-    def time_daily(self, f = 'compact'): 
+    def time_daily(self, f = 'compact'):
         if f != 'compact': f = 'full'
         data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+self.sym+'&outputsize='+str(f)+'&apikey='+self.key)
         data = data.json()
 
         meta = data['Meta Data']
-        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[2][0][3:], meta.items()[3][0][3:], meta.items()[4][0][3:]])    
+        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[2][0][3:], meta.items()[3][0][3:], meta.items()[4][0][3:]])
         dmeta.loc[0] = [meta.items()[0][1], meta.items()[1][1], meta.items()[2][1], meta.items()[3][1], datetime.datetime.strptime(meta.items()[4][1], '%Y-%m-%d %H:%M:%S')]
 
         data = data['Time Series (Daily)']
@@ -73,7 +73,7 @@ class stockTime():
             data_row = [date, float(p['1. open']), float(p['2. high']), float(p['3. low']), float(p['4. close']), int(p['5. volume'])]
             df.loc[-1,:] = data_row
             df.index = df.index + 1
-        
+
         print(dmeta)
         print(df)
 
@@ -83,7 +83,7 @@ class stockTime():
         data = data.json()
 
         meta = data[str(data.items()[0][0])]
-        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[2][0][3:], meta.items()[3][0][3:], meta.items()[4][0][3:]])    
+        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[2][0][3:], meta.items()[3][0][3:], meta.items()[4][0][3:]])
         dmeta.loc[0] = [meta.items()[0][1], meta.items()[1][1], meta.items()[2][1], meta.items()[3][1], datetime.datetime.strptime(meta.items()[4][1], '%Y-%m-%d %H:%M:%S')]
 
         data = data['Time Series (Daily)']
@@ -100,9 +100,9 @@ class stockTime():
     def time_weekly(self):
         data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol='+self.sym+'&apikey='+self.key)
         data = data.json()
-        
+
         meta = data[str(data.items()[0][0])]
-        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[3][0][3:], meta.items()[2][0][3:]])    
+        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[3][0][3:], meta.items()[2][0][3:]])
         dmeta.loc[0] = [meta.items()[0][1], meta.items()[1][1], meta.items()[3][1], datetime.datetime.strptime(meta.items()[2][1], '%Y-%m-%d %H:%M:%S')]
 
         data = data['Weekly Time Series']
@@ -121,9 +121,9 @@ class stockTime():
         data = data.json()
 
         meta = data['Meta Data']
-        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[3][0][3:], meta.items()[2][0][3:]])    
+        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[3][0][3:], meta.items()[2][0][3:]])
         dmeta.loc[0] = [meta.items()[0][1], meta.items()[1][1], meta.items()[3][1], datetime.datetime.strptime(meta.items()[2][1], '%Y-%m-%d %H:%M:%S')]
-        
+
         data = data['Weekly Adjusted Time Series']
         df = pd.DataFrame(columns = ['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted Close', 'Dividend Amount'])
         for d,p in data.items():
@@ -131,7 +131,7 @@ class stockTime():
             data_row = [date, float(p['1. open']), float(p['2. high']), float(p['3. low']), float(p['4. close']), int(p['6. volume']), float(p['5. adjusted close']), float(p['7. dividend amount'])]
             df.loc[-1,:] = data_row
             df.index = df.index + 1
-                
+
         print(dmeta)
         print(df)
 
@@ -140,7 +140,7 @@ class stockTime():
         data = data.json()
 
         meta = data['Meta Data']
-        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[3][0][3:], meta.items()[2][0][3:]])    
+        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[3][0][3:], meta.items()[2][0][3:]])
         dmeta.loc[0] = [meta.items()[0][1], meta.items()[1][1], meta.items()[3][1], datetime.datetime.strptime(meta.items()[2][1], '%Y-%m-%d %H:%M:%S')]
 
         data = data['Monthly Time Series']
@@ -159,7 +159,7 @@ class stockTime():
         data = data.json()
 
         meta = data['Meta Data']
-        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[3][0][3:], meta.items()[2][0][3:]])    
+        dmeta = pd.DataFrame(columns = [meta.items()[0][0][3:], meta.items()[1][0][3:], meta.items()[3][0][3:], meta.items()[2][0][3:]])
         dmeta.loc[0] = [meta.items()[0][1], meta.items()[1][1], meta.items()[3][1], datetime.datetime.strptime(meta.items()[2][1], '%Y-%m-%d %H:%M:%S')]
 
         data = data['Monthly Adjusted Time Series']
@@ -169,7 +169,7 @@ class stockTime():
             data_row = [date, float(p['1. open']), float(p['2. high']), float(p['3. low']), float(p['4. close']), int(p['6. volume']), float(p['5. adjusted close']), float(p['7. dividend amount'])]
             df.loc[-1,:] = data_row
             df.index = df.index + 1
-                
+
         print(dmeta)
         print(df)
 
@@ -178,14 +178,14 @@ class stockTime():
         data = data.json()
 
         data = data['Global Quote']
-        gquote = pd.DataFrame(columns = [data.items()[7][0][4:], data.items()[0][0][4:], data.items()[1][0][4:], data.items()[2][0][4:], data.items()[4][0][4:], 
-                                        data.items()[8][0][4:], data.items()[5][0][4:], data.items()[3][0][4:], data.items()[6][0][4:]])    
-        gquote.loc[0] = [data.items()[7][1], data.items()[0][1], data.items()[1][1][4:], data.items()[2][1], datetime.datetime.strptime(data.items()[4][1], '%Y-%m-%d'), 
-                        data.items()[8][1], data.items()[5][1], data.items()[3][1], data.items()[6][1]] 
-                                        
+        gquote = pd.DataFrame(columns = [data.items()[7][0][4:], data.items()[0][0][4:], data.items()[1][0][4:], data.items()[2][0][4:], data.items()[4][0][4:],
+                                        data.items()[8][0][4:], data.items()[5][0][4:], data.items()[3][0][4:], data.items()[6][0][4:]])
+        gquote.loc[0] = [data.items()[7][1], data.items()[0][1], data.items()[1][1][4:], data.items()[2][1], datetime.datetime.strptime(data.items()[4][1], '%Y-%m-%d'),
+                        data.items()[8][1], data.items()[5][1], data.items()[3][1], data.items()[6][1]]
+
         print(gquote)
 
-    
+
 if __name__ == '__main__':
     # search_endpoint(api_key, 'apple')
     A = stockTime(api_key, symbol)
@@ -197,11 +197,3 @@ if __name__ == '__main__':
     # A.time_monthly()
     # A.time_monthly_adjusted()
     # A.quote_endpoint()
-
-    
-
-
-
-
-
-
