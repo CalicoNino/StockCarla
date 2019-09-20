@@ -5,6 +5,8 @@ import pandas as pd
 import datetime
 import matplotlib.pyplot as plt
 import numpy as np
+import json
+import ast
 
 global api_key, symbol
 api_key = '91IGP67JSL4LZM0L'

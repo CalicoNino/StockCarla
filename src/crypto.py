@@ -42,7 +42,7 @@ class crypto():
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
         for date in timestamp:
-            data_row = [datetime.datetime.strptime(date, '%Y-%m-%d').date()] + [float(data[date][i]) for i in titles]
+            data_row = [datetime.datetime.strptime(date, '%Y-%m-%d')] + [float(data[date][i]) for i in titles]
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
@@ -63,7 +63,7 @@ class crypto():
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
         for date in timestamp:
-            data_row = [datetime.datetime.strptime(date, '%Y-%m-%d').date()] + [float(data[date][i]) for i in titles]
+            data_row = [datetime.datetime.strptime(date, '%Y-%m-%d')] + [float(data[date][i]) for i in titles]
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
@@ -84,7 +84,7 @@ class crypto():
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
         for date in timestamp:
-            data_row = [datetime.datetime.strptime(date, '%Y-%m-%d').date()] + [float(data[date][i]) for i in titles]
+            data_row = [datetime.datetime.strptime(date, '%Y-%m-%d')] + [float(data[date][i]) for i in titles]
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
