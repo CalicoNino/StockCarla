@@ -21,7 +21,10 @@ def search_endpoint(api_key, keywords = ""):
     for result in data:
         search.loc[-1,:] = [float(result[i]) if "Score" in i else datetime.datetime.strptime(result[i],'%H:%M').time() if "market" in i else result[i] for i in titles]
         search.index = search.index + 1
-    print(search)
+
+    search = search.iloc[::-1]
+
+    return search
 
 class stockTime():
     def __init__(self, api_key, symbol):
@@ -38,7 +41,7 @@ class stockTime():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Time Series ('+str(t)+'min)']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -47,12 +50,13 @@ class stockTime():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
 
-        df.plot(kind ='line', x = 'Timestamp', y = 'open', color = 'red')
-        plt.show()
+        # df.plot(kind ='line', x = 'Timestamp', y = 'open', color = 'red')
+        # plt.show()
 
 
     def time_daily(self, f = 'compact'):
@@ -65,7 +69,7 @@ class stockTime():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Time Series (Daily)']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -74,8 +78,9 @@ class stockTime():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def time_daily_adjusted(self, f = 'compact'):
         if f != 'compact': f = 'full'
@@ -87,7 +92,7 @@ class stockTime():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Time Series (Daily)']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -96,8 +101,9 @@ class stockTime():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def time_weekly(self):
         data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol='+self.sym+'&apikey='+self.key)
@@ -108,7 +114,7 @@ class stockTime():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Weekly Time Series']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -117,8 +123,9 @@ class stockTime():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def time_weekly_adjusted(self):
         data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol='+self.sym+'&apikey='+self.key)
@@ -129,7 +136,7 @@ class stockTime():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Weekly Adjusted Time Series']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -138,8 +145,9 @@ class stockTime():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def time_monthly(self):
         data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol='+self.sym+'&apikey='+self.key)
@@ -150,7 +158,7 @@ class stockTime():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Monthly Time Series']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -159,8 +167,9 @@ class stockTime():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def time_monthly_adjusted(self):
         data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol='+self.sym+'&apikey='+self.key)
@@ -171,7 +180,7 @@ class stockTime():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Monthly Adjusted Time Series']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -180,8 +189,9 @@ class stockTime():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        pdf = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def quote_endpoint(self):
         data = requests.get('https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol='+self.sym+'&apikey='+self.key)
@@ -189,17 +199,21 @@ class stockTime():
         titles = data.keys(); titles.sort()
         quote = pd.DataFrame(columns = [i[4:].title() for i in titles])
         quote.loc[0] = [data[i] if "symbol" in i or "percent" in i else datetime.datetime.strptime(data[i], '%Y-%m-%d').date() if "day" in i else float(data[i]) for i in titles]
-        print(quote)
 
+        return quote
 
-if __name__ == '__main__':
-    # search_endpoint(api_key, 'AAPL')
-    A = stockTime(api_key, symbol)
-    A.time_intraday()
-    # A.time_daily()
-    # A.time_daily_adjusted()
-    # A.time_weekly()
-    # A.time_weekly_adjusted()
-    # A.time_monthly()
-    # A.time_monthly_adjusted()
-    # A.quote_endpoint()
+def printTuple(tuple):
+    for element in tuple:
+        print element
+
+# if __name__ == '__main__':
+#     print search_endpoint(api_key, 'AAPL')
+#     A = stockTime(api_key, symbol)
+#     printTuple(A.time_intraday())
+#     printTuple(A.time_daily())
+#     printTuple(A.time_daily_adjusted())
+#     printTuple(A.time_weekly())
+#     printTuple(A.time_weekly_adjusted())
+#     printTuple(A.time_monthly())
+#     printTuple(A.time_monthly_adjusted())
+#     print A.quote_endpoint()

@@ -27,7 +27,8 @@ class forex():
 
         df = pd.DataFrame(columns = [i[3:].replace("_", " ") for i in titles])
         df.loc[0] = [float(data[i]) if "Price" in i or "Rate" in i else datetime.datetime.strptime(data[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else data[i] for i in titles]
-        print(df)
+
+        return df
 
     def time_intraday(self, t = 1, f = 'compact'): #1, 5, 15, 30, 60
         if f != 'compact': f = 'full'
@@ -39,7 +40,7 @@ class forex():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Time Series FX ('+str(t)+'min)']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -48,8 +49,9 @@ class forex():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def time_daily(self, f = 'compact'):
         if f != 'compact': f = 'full'
@@ -61,7 +63,7 @@ class forex():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Time Series FX (Daily)']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -70,8 +72,9 @@ class forex():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def time_weekly(self):
         data = requests.get('https://www.alphavantage.co/query?function=FX_WEEKLY&from_symbol='+self.from_sym+'&to_symbol='+self.to_sym+'&apikey='+self.key)
@@ -82,7 +85,7 @@ class forex():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Time Series FX (Weekly)']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -91,8 +94,9 @@ class forex():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
+
+        return (dmeta, df)
 
     def time_monthly(self):
         data = requests.get('https://www.alphavantage.co/query?function=FX_MONTHLY&from_symbol='+self.from_sym+'&to_symbol='+self.to_sym+'&apikey='+self.key)
@@ -103,7 +107,7 @@ class forex():
         dmeta.loc[0] = [datetime.datetime.strptime(meta[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else meta[i] for i in titles]
 
         data = ast.literal_eval(json.dumps(data['Time Series FX (Monthly)']))
-        timestamp = data.keys(); timestamp.sort()
+        timestamp = data.keys(); timestamp.sort(reverse = True)
         titles = data[timestamp[0]].keys(); titles.sort()
 
         df = pd.DataFrame(columns= ['Timestamp'] + [i[4:] if "a." in i or "b." in i else i[3:] for i in titles])
@@ -112,13 +116,18 @@ class forex():
             df.loc[-1,:] = data_row
             df.index = df.index + 1
 
-        print(dmeta)
-        print(df)
+        df = df.iloc[::-1]
 
-if __name__ == '__main__':
-    A = forex(api_key, from_symbol, to_symbol)
-    # A.currency_exchRate()
-    # A.time_intraday()
-    # A.time_daily()
-    # A.time_weekly()
-    # A.time_monthly()
+        return (dmeta, df)
+
+def printTuple(tuple):
+    for element in tuple:
+        print element
+
+# if __name__ == '__main__':
+#     A = forex(api_key, from_symbol, to_symbol)
+#     print A.currency_exchRate()
+#     printTuple(A.time_intraday())
+#     printTuple(A.time_daily())
+#     printTuple(A.time_weekly())
+#     printTuple(A.time_monthly())
