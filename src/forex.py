@@ -122,7 +122,7 @@ class forex():
 
 def printTuple(tuple):
     for element in tuple:
-        print element
+        print(element)
 
 # if __name__ == '__main__':
 #     A = forex(api_key, from_symbol, to_symbol)

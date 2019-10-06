@@ -204,7 +204,7 @@ class stockTime():
 
 def printTuple(tuple):
     for element in tuple:
-        print element
+        print(element)
 
 # if __name__ == '__main__':
 #     print search_endpoint(api_key, 'AAPL')
