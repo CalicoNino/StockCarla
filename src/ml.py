@@ -16,12 +16,9 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Dropout
 
-
-
 global api_key, symbol
 api_key = '91IGP67JSL4LZM0L'
 symbol = 'AAPL'
-
 
 
 if __name__ == '__main__':
@@ -47,7 +44,6 @@ if __name__ == '__main__':
     x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
     # print(x_train)
 
-
     regressor = Sequential()
 
     regressor.add(LSTM(units = 50, return_sequences = True, input_shape = (x_train.shape[1], 1)))
@@ -69,22 +65,24 @@ if __name__ == '__main__':
     regressor.fit(x_train, y_train, epochs = 100, batch_size = 32)
 
     # Getting the predicted stock price of 2017
-    inputs = data.values
+    inputs = training_set
     inputs = inputs.reshape(-1,1)
     inputs = sc.transform(inputs)
-    # X_test = []
-    # for i in range(60, 80):
-    #     X_test.append(inputs[i-60:i, 0])
-    # X_test = np.array(X_test)
-    # X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
-    # predicted_stock_price = regressor.predict(X_test)
-    # predicted_stock_price = sc.inverse_transform(predicted_stock_price)
-    #
+    X_test = []
+    for i in range(60, 100):
+        X_test.append(inputs[i-60:i, 0])
+    X_test = np.array(X_test)
+    X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
+    predicted_stock_price = regressor.predict(X_test)
+    predicted_stock_price = sc.inverse_transform(predicted_stock_price)
+
+    real_stock = training_set[-20:]
+
     # # Visualising the results
-    # plt.plot(training_set, color = 'red', label = 'Real')
-    # plt.plot(predicted_stock_price, color = 'blue', label = 'Predicted')
-    # plt.title('Google Stock Price Prediction')
-    # plt.xlabel('Time')
-    # plt.ylabel('Google Stock Price')
-    # plt.legend()
-    # plt.show()
+    plt.plot(real_stock, color = 'red', label = 'Real')
+    plt.plot(predicted_stock_price, color = 'blue', label = 'Predicted')
+    plt.title('Price Prediction')
+    plt.xlabel('Time')
+    plt.ylabel('Stock Price')
+    plt.legend()
+    plt.show()
