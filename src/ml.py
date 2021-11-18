@@ -16,8 +16,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Dropout
 
-global api_key, symbol
-api_key = '91IGP67JSL4LZM0L'
+global symbol
 symbol = 'AAPL'
 
 

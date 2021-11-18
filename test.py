@@ -1,7 +1,8 @@
 import requests
 import datetime
 import pandas as pd
-
+import os
+from dotenv import load_dotenv
 
 def search_endpoint(api_key, keywords = ""):
     data = requests.get('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords='+keywords+'&apikey='+api_key)
@@ -16,7 +17,8 @@ def search_endpoint(api_key, keywords = ""):
     search = search.iloc[::-1]
 
     return search
-
-api_key = '91IGP67JSL4LZM0L'
+    
+load_dotenv()
+api_key = os.getenv("API_KEY")
 symbol = 'FB'
 print(search_endpoint(api_key, symbol))

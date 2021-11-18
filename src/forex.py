@@ -8,8 +8,7 @@ import numpy as np
 import json
 import ast
 
-global api_key, from_symbol, to_symbol
-api_key = '91IGP67JSL4LZM0L'
+global from_symbol, to_symbol
 from_symbol = 'EUR'
 to_symbol = 'USD'
 

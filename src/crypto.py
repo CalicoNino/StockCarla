@@ -8,8 +8,7 @@ import numpy as np
 import json
 import ast
 
-global api_key, from_symbol, to_symbol
-api_key = '91IGP67JSL4LZM0L'
+global from_symbol, to_symbol
 from_symbol = 'BTC'
 to_symbol = 'EUR'
 
@@ -99,9 +98,9 @@ def printTuple(tuple):
     for element in tuple:
         print(element)
 
-if __name__ == '__main__':
-    A = crypto(api_key, from_symbol, to_symbol)
-    print(A.currency_exchRate())
-    printTuple(A.time_daily())
-    printTuple(A.time_weekly())
-    printTuple(A.time_monthly())
+# if __name__ == '__main__':
+#     A = crypto(api_key, from_symbol, to_symbol)
+#     print(A.currency_exchRate())
+#     printTuple(A.time_daily())
+#     printTuple(A.time_weekly())
+#     printTuple(A.time_monthly())

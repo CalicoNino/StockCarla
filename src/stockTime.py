@@ -8,10 +8,6 @@ import numpy as np
 import json
 import ast
 
-global api_key, symbol
-api_key = '91IGP67JSL4LZM0L'
-symbol = 'AAPL'
-
 def search_endpoint(api_key, keywords = ""):
     data = requests.get('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords='+keywords+'&apikey='+api_key)
     data = data.json(); data = data['bestMatches']
