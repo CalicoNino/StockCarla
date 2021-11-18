@@ -206,14 +206,17 @@ def printTuple(tuple):
     for element in tuple:
         print(element)
 
-# if __name__ == '__main__':
-#     print search_endpoint(api_key, 'AAPL')
-#     A = stockTime(api_key, symbol)
-#     printTuple(A.time_intraday())
-#     printTuple(A.time_daily())
-#     printTuple(A.time_daily_adjusted())
-#     printTuple(A.time_weekly())
-#     printTuple(A.time_weekly_adjusted())
-#     printTuple(A.time_monthly())
-#     printTuple(A.time_monthly_adjusted())
-#     print A.quote_endpoint()
+if __name__ == '__main__':
+    # print search_endpoint(api_key, 'AAPL')
+    # A = stockTime(api_key, symbol)
+    # printTuple(A.time_intraday())
+    # printTuple(A.time_daily())
+    # printTuple(A.time_daily_adjusted())
+    # printTuple(A.time_weekly())
+    # printTuple(A.time_weekly_adjusted())
+    # printTuple(A.time_monthly())
+    # printTuple(A.time_monthly_adjusted())
+    # print A.quote_endpoint()
+    
+    data = requests.get('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords='+keywords+'&apikey='+api_key)
+

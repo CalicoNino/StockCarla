@@ -23,7 +23,7 @@ class forex():
     def currency_exchRate(self):
         data = requests.get('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency='+self.from_sym+'&to_currency='+self.to_sym+'&apikey='+self.key)
         data = data.json(); data = ast.literal_eval(json.dumps(data['Realtime Currency Exchange Rate']))
-        titles = data.keys(); titles.sort()
+        titles = sorted(data[0].keys())
 
         df = pd.DataFrame(columns = [i[3:].replace("_", " ") for i in titles])
         df.loc[0] = [float(data[i]) if "Price" in i or "Rate" in i else datetime.datetime.strptime(data[i], '%Y-%m-%d %H:%M:%S') if "Last Refreshed" in i else data[i] for i in titles]
